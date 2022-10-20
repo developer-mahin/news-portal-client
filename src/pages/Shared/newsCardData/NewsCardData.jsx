@@ -1,12 +1,12 @@
 import React from "react";
-import { Button, Card, Image } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
+import Image from "react-bootstrap/Image";
 import { FaBookmark, FaEye, FaShareAlt, FaStar } from "react-icons/fa";
-import { Link, useLoaderData } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-const News = () => {
-  const allNews = useLoaderData();
-  const { author, title, details, image_url, total_view, rating, category_id } = allNews;
-
+const NewsCardData = ({ category }) => {
+  const { author, title, details, image_url, total_view, rating, _id } =
+    category;
   return (
     <div>
       <Card className="mb-3">
@@ -36,9 +36,16 @@ const News = () => {
           <Card.Title>{title}</Card.Title>
           <Card.Img variant="top" src={image_url} />
           <Card.Text>
-            {details}
+            {details.length > 250 ? (
+              <p>
+                {details.slice(0, 250) + "..."}{" "}
+                <Link to={`/news/${_id}`}>Reade More</Link>
+              </p>
+            ) : (
+              <p>{details}</p>
+            )}
           </Card.Text>
-          <Button variant="primary"><Link to={`/category/${category_id}`} className="text-white text-decoration-none">Go to category</Link></Button>
+          <Button variant="primary">Go somewhere</Button>
         </Card.Body>
         <Card.Footer className="d-flex justify-content-between align-items-center">
           <div className="d-flex justify-content-between align-items-center gap-2">
@@ -55,4 +62,4 @@ const News = () => {
   );
 };
 
-export default News;
+export default NewsCardData;
