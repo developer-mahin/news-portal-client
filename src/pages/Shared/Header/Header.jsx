@@ -37,21 +37,21 @@ const Header = () => {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link>
+            <Nav.Item>
               {" "}
-              <Link className="text-decoration-none">NEWS</Link>{" "}
-            </Nav.Link>
-            <Nav.Link>
+              <Link className="text-decoration-none mx-2">NEWS</Link>{" "}
+            </Nav.Item>
+            <Nav.Item>
               {" "}
-              <Link className="text-decoration-none">Category</Link>{" "}
-            </Nav.Link>
-            <Nav.Link>
+              <Link className="text-decoration-none mx-2">Category</Link>{" "}
+            </Nav.Item>
+            <Nav.Item>
               {" "}
-              <Link className="text-decoration-none">About Us</Link>{" "}
-            </Nav.Link>
+              <Link className="text-decoration-none mx-2">About Us</Link>{" "}
+            </Nav.Item>
           </Nav>
           <Nav className="d-flex align-items-center">
-            <Nav.Link>
+            <Nav.Item>
               {user?.uid ? (
                 <>
                   <span className="fw-semibold">
@@ -75,8 +75,8 @@ const Header = () => {
                   </Link>
                 </>
               )}
-            </Nav.Link>
-            <Nav.Link eventKey={2}>
+            </Nav.Item>
+            <Link to="/profile">
               {user?.photoURL ? (
                 <Image
                   roundedCircle
@@ -87,7 +87,7 @@ const Header = () => {
               ) : (
                 <FaUser></FaUser>
               )}
-            </Nav.Link>
+            </Link>
           </Nav>
           <div className="d-lg-none">
             <LeftSideNav></LeftSideNav>

@@ -1,10 +1,12 @@
 import React, { useContext, useState } from "react";
 import { Button, Form } from "react-bootstrap";
+import toast from "react-hot-toast";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthProvider";
 
 const Login = () => {
-  const { loginWithEmailPassword, setUser } = useContext(AuthContext);
+  const { loginWithEmailPassword, setLoading } =
+    useContext(AuthContext);
   const [isDisable, setIsDisable] = useState(true);
   const navigate = useNavigate();
   const [error, setError] = useState("");
@@ -19,16 +21,23 @@ const Login = () => {
 
     loginWithEmailPassword(email, password)
       .then((result) => {
-        const user = result.user;
-        console.log(user);
-        setUser(user);
+        const currentUser = result.user;
         form.reset();
-        setError("")
-        navigate(from, {replace: true})
+        setError("");
+        if (currentUser?.emailVerified) {
+          navigate(from, { replace: true });
+        } else {
+          toast.error(
+            "Your email is not varified, please verify your email address"
+          );
+        }
       })
       .catch((error) => {
         console.error(error);
-        setError(error.message)
+        setError(error.message);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -64,7 +73,7 @@ const Login = () => {
         />
       </Form.Group>
       <Form.Text className="text-danger">{error}</Form.Text>
-      
+
       <Button
         disabled={isDisable}
         className="w-100"
@@ -73,7 +82,9 @@ const Login = () => {
       >
         Login
       </Button>
-      <p>Are you new? <Link to='/register'>Register</Link> </p>
+      <p>
+        Are you new? <Link to="/register">Register</Link>{" "}
+      </p>
     </Form>
   );
 };

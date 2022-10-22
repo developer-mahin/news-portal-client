@@ -1,13 +1,13 @@
-import { getAuth, updateProfile } from "firebase/auth";
 import React, { useContext, useState } from "react";
 import { Button, Form } from "react-bootstrap";
+import toast from "react-hot-toast";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthProvider";
-import app from "../../../Firebase/firebase.config";
 
-const auth = getAuth(app);
+
+
 const Register = () => {
-  const { createUser, updateUserProfile } = useContext(AuthContext);
+  const { createUser, updateUserProfile,verifyEmail } = useContext(AuthContext);
   const [isDisable, setIsDisable] = useState(true);
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -36,6 +36,15 @@ const Register = () => {
           .catch((error) => {
             setError(error.message);
           });
+          // email verify
+          verifyEmail()
+          .then(()=>{
+            toast.success("Check and verify your email")
+          })
+          .catch((error)=>{
+            setError(error.message)
+          })
+          
       })
       .catch((error) => {
         console.error(error);
@@ -44,7 +53,7 @@ const Register = () => {
   };
 
 
-  
+
 
   return (
     <Form
